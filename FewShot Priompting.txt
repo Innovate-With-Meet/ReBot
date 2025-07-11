@@ -1,0 +1,47 @@
+Few Shot Prompt Template is Used when the Prompttemplate is struggle with integrate with dataset.
+It is use to integrate the data set into small dict que & ans.
+
+examples = [
+  {
+    "question": "How many DataCamp courses has Jack completed?",
+    "answer": "36"
+  },
+  {
+    "question": "How much XP does Jack have on DataCamp?",
+    "answer": "284,320XP"
+  },
+  {
+    "question": "What technology does Jack learn about most on DataCamp?",
+    "answer": "Python"
+  }
+]
+====
+example_prompt = PromptTemplate.from_template("Question:{question}\n{answer}")
+
+prompt_template = FewShotPromptTemplate
+(
+	examples=examples,
+	example_prompt = example_prompt,
+	suffix = "Question: {input}",
+	input_variables=["input"],
+)
+
+
+prompt = prompt_template.invoke({"input": "What is Jack's favorite technology on DataCamp?"})
+print(prompt.text)
+====
+Time to combine the com into a chain
+
+prompt_template = FewShotPromptTemplate(
+    examples=examples,
+    example_prompt=example_prompt,
+    suffix="Question: {input}",
+    input_variables=["input"],
+)
+
+# Create an OpenAI chat LLM
+llm = ChatOpenAI(model="gpt-4o-mini", api_key='<OPENAI_API_TOKEN>')
+
+# Create and invoke the chain
+llm_chain = prompt_template | llm
+print(llm_chain.invoke({"input": "What is Jack's favorite technology on DataCamp?"}))
