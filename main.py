@@ -37,6 +37,6 @@ with gr.Blocks() as demo:
     msg.submit(chat, [msg, chatbot], [msg, chatbot])
     clear.click(lambda: None, None, chatbot, queue=False)
 
-# Launch app
+# Launch app for the ReBot
 if __name__ == "__main__":
     demo.launch()
