@@ -1,0 +1,65 @@
+to define the llm via api key and model:
+llm = model_name(model="", api_key="")
+==
+now modify the code for geetting the response of the message from model and ip the query to model
+Ip_prompt = "Give the Answer"
+response = llm.invoke(Ip_prompt)
+
+print(response.content) == ?
+==
+Now the model define with the hugging face.
+We work with the open source model called |crumb/nano-mistral|. do with the load and call the model form hugging face.
+
+from langchain_hugingface import HuggingFacePipeline
+llm = HuggingFacePipeline.from_model_id(     model_id="", task="", pipeline_kwargs={number of token define}	)
+Ip_prompt = "Hi There!!"
+
+response = llm.invoke(Ip_prompt)
+print(response)
+
+===
+prompt template and chain:
+template = "content, {question or query}"
+prompt = PromptTemplate.from_template(template=template) # here the PromptTemplate.from_template is the methods that define the template=template
+
+#define the model now
+llm = ChatOpenAI(model="gpt-4o-mini", api_key='<OPENAI_API_TOKEN>')	
+
+
+#IMP: create the chain here to intergrate the prompt template and LLM
+llm_chain = prompt | llm
+# here the prompt and llm are work together to generate the response that is known as chaining
+# the chaining is the connecting two different data sources for processing i/p and generate o/p by LLM.
+# each steps o/p is used as the i/p for next step- hence called as the "chain".
+
+
+# Invoke the chain on the question
+question = "How does LangChain make LLM application development easier?"
+print(llm_chain.invoke({"question":llm_chain}))
+====
+prompt template is referes to the structure input prompt, use when breakdown the tasak to subtask.
+====
+
+# here the code that define the color of the countrys flag
+
+llm = ChatOpenAI(model="gpt-40-mini", api_key="< Key >")
+# here now create the chat prompt template
+prompt_template = ChatPromptTemplate.from_messages(
+	[	("System", "You are a geography expert that returns the color presents in a country's flag."),
+		("human", "France"),
+		("ai", "blue,red,green"),
+		("human", "{country}")
+	]
+# here the whole block inside [] is the i/p and model gives answer accordingly
+)
+llm_chain = prompt_template | llm
+country = "India"
+response = llm_chain.invoke({"country": country})
+print(response.content)
+
+# here the LCEL is most important the prompt_template is use to break the task and also make the example of the solution to feed the i/p
+
+=====
+
+
+
