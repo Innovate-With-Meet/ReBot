@@ -1,1 +1,5 @@
+float - real number : 0 to 9
+int - -1 , 0 , 1
+str - words, character
+bool - true, false
 
